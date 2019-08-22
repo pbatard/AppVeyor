@@ -2,18 +2,18 @@ environment:
   global:
     BITS: 32
   matrix:
-    - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2019
-      CONFIGURATION: Release
-      COMPILER: MSVC
-      PLATFORM: x64
-    - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
-      CONFIGURATION: Release
-      COMPILER: MinGW
-      PLATFORM: i686
-    - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
-      CONFIGURATION: Release
-      COMPILER: MinGW
-      PLATFORM: x86_64
+  - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2019
+    CONFIGURATION: Release
+    COMPILER: MSVC
+    PLATFORM: x64
+  - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
+    CONFIGURATION: Release
+    COMPILER: MinGW
+    PLATFORM: i686
+  - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
+    CONFIGURATION: Release
+    COMPILER: MinGW
+    PLATFORM: x86_64
 
 build:
   verbosity: detailed
@@ -32,6 +32,6 @@ build_script:
         & 'C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\MSBuild\Current\Bin\MSBuild' -version;
       }
       MinGW {
-        bash -lc "export PATH=/mingw$env:BITS/bin:`$PATH; cd /c/projects/AppVeyor; ls /mingw$env:BITS/bin; gcc -o test test.c";
+        C:\msys64\usr\bin\bash -lc "export PATH=/mingw$env:BITS/bin:`$PATH; cd /c/projects/AppVeyor; ls -lR /mingw$env:BITS; gcc -o test test.c";
       }
     }
