@@ -28,6 +28,6 @@ build_script:
         msbuild rufus.sln /m /p:Configuration=$env:CONFIGURATION,Platform=$env:PLATFORM /l:$APPVEYOR_LOGGER;
       }
       MinGW {
-         bash -lc "export PATH=/mingw$env:BITS/bin:`$PATH; cd /c/projects/AppVeyor; ls /mingw$env:BITS/bin; gcc -o test test.c";
+         bash -lc "export PATH=/mingw$env:BITS/bin:`$PATH; cd /c/projects/AppVeyor; ls /; ls /c; gcc -o test test.c";
       }
     }
