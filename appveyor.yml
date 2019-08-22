@@ -1,6 +1,8 @@
 image: Visual Studio 2019
 
 environment:
+  global:
+    BITS: 32
   matrix:
     - CONFIGURATION: Release
       COMPILER: MinGW
@@ -26,6 +28,6 @@ build_script:
         msbuild rufus.sln /m /p:Configuration=$env:CONFIGURATION,Platform=$env:PLATFORM /l:$APPVEYOR_LOGGER;
       }
       MinGW {
-         bash -lc "export PATH=/mingw$env:BITS/bin:`$PATH; cd /c/projects/AppVeyor; ls /mingw$env:BITS; gcc -o test test.c";
+         bash -lc "export PATH=/mingw$env:BITS/bin:`$PATH; cd /c/projects/AppVeyor; ls /mingw$env:BITS/bin; gcc -o test test.c";
       }
     }
