@@ -12,6 +12,12 @@ environment:
 build:
   verbosity: detailed
 
+install:
+- ps: |
+    if ($env:PLATFORM -eq "x86_64") {
+      $env:BITS = 64
+    }
+
 build_script:
 - ps: |
     $APPVEYOR_LOGGER = "C:\Program Files\AppVeyor\BuildAgent\Appveyor.MSBuildLogger.dll";
@@ -20,6 +26,6 @@ build_script:
         msbuild rufus.sln /m /p:Configuration=$env:CONFIGURATION,Platform=$env:PLATFORM /l:$APPVEYOR_LOGGER;
       }
       MinGW {
-        bash -lc "echo yup";
+         bash -lc "export PATH=/mingw$env:BITS/bin:`$PATH; cd /c/projects/AppVeyor; ls /mingw$env:BITS; gcc -o test test.c";
       }
     }
