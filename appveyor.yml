@@ -1,0 +1,25 @@
+image: Visual Studio 2019
+
+environment:
+  matrix:
+    - CONFIGURATION: Release
+      COMPILER: MinGW
+      PLATFORM: i686
+    - CONFIGURATION: Release
+      COMPILER: MinGW
+      PLATFORM: x86_64
+
+build:
+  verbosity: detailed
+
+build_script:
+- ps: |
+    $APPVEYOR_LOGGER = "C:\Program Files\AppVeyor\BuildAgent\Appveyor.MSBuildLogger.dll";
+    switch ($env:COMPILER) {
+      MSVC {
+        msbuild rufus.sln /m /p:Configuration=$env:CONFIGURATION,Platform=$env:PLATFORM /l:$APPVEYOR_LOGGER;
+      }
+      MinGW {
+        bash -lc "echo yup";
+      }
+    }
