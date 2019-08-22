@@ -1,15 +1,23 @@
-image: Visual Studio 2019
+image:
+- Visual Studio 2019
+- Visual Studio 2017
 
 environment:
   global:
     BITS: 32
   matrix:
-    - CONFIGURATION: Release
-      COMPILER: MinGW
-      PLATFORM: i686
-    - CONFIGURATION: Release
-      COMPILER: MinGW
-      PLATFORM: x86_64
+  - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2019
+    CONFIGURATION: Release
+    COMPILER: MSVC
+    PLATFORM: x64
+  - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
+    CONFIGURATION: Release
+    COMPILER: MinGW
+    PLATFORM: i686
+  - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
+    CONFIGURATION: Release
+    COMPILER: MinGW
+    PLATFORM: x86_64
 
 build:
   verbosity: detailed
@@ -25,9 +33,9 @@ build_script:
     $APPVEYOR_LOGGER = "C:\Program Files\AppVeyor\BuildAgent\Appveyor.MSBuildLogger.dll";
     switch ($env:COMPILER) {
       MSVC {
-        msbuild rufus.sln /m /p:Configuration=$env:CONFIGURATION,Platform=$env:PLATFORM /l:$APPVEYOR_LOGGER;
+        & 'C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\MSBuild\Current\Bin\MSBuild' -version;
       }
       MinGW {
-         bash -lc "export PATH=/mingw64/bin:`$PATH; cd /c/projects/AppVeyor; ls -lR /mingw64/; gcc -o test test.c";
+        bash -lc "export PATH=/mingw64/bin:`$PATH; cd /c/projects/AppVeyor; gcc -o test test.c";
       }
     }
